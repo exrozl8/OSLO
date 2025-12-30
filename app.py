@@ -3,15 +3,21 @@ import os
 
 app = Flask(__name__)
 
+# This gets the absolute path to the directory this file is in
+base_dir = os.path.abspath(os.path.dirname(__file__))
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
+# SECURE ROUTE FOR ROBOTS AND SITEMAP
 @app.route('/robots.txt')
-@app.route('/sitemap.xml')
-def static_from_root():
-    return send_from_directory(os.getcwd(), request.path[1:])
+def robots():
+    return send_from_directory(base_dir, 'robots.txt')
 
-# This is important for Vercel
-if __name__ == "__main__":
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory(base_dir, 'sitemap.xml')
+
+if __name__ == '__main__':
     app.run()
