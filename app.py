@@ -7,12 +7,11 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-# This route tells Flask to serve robots.txt and sitemap.xml from the root folder
-@app.route('/<path:filename>')
-def static_proxy(filename):
-    if filename in ['robots.txt', 'sitemap.xml']:
-        return send_from_directory(os.getcwd(), filename)
-    return "File Not Found", 404
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(os.getcwd(), request.path[1:])
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# This is important for Vercel
+if __name__ == "__main__":
+    app.run()
