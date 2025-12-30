@@ -31,6 +31,13 @@
             overflow: hidden; height: 100vh;
         }
 
+        /* BOOT SCREEN */
+        #boot-screen {
+            position: fixed; inset: 0; background: #000; z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1s ease-out;
+        }
+
         #custom-cursor, #cursor-follower {
             position: fixed; pointer-events: none; z-index: 10000; border-radius: 50%;
         }
@@ -68,6 +75,15 @@
     </style>
 </head>
 <body class="p-6 md:p-12 select-none">
+
+    <div id="boot-screen">
+        <div class="text-[10px] space-y-2 opacity-50">
+            <p id="boot-1">> BIOS_REV: 4.0.1</p>
+            <p id="boot-2">> LOADING_DEDSEC_KERNEL...</p>
+            <p id="boot-3">> BYPASSING_ENCRYPTION...</p>
+            <p id="boot-4" class="text-white font-bold">> ACCESS_GRANTED</p>
+        </div>
+    </div>
 
     <div id="custom-cursor"></div>
     <div id="cursor-follower"></div>
@@ -164,6 +180,12 @@
         const playBtn = document.getElementById('play-btn');
         const ring = document.getElementById('ring1');
 
+        // BOOT SEQUENCE
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('boot-screen').style.opacity = '0', 2000);
+            setTimeout(() => document.getElementById('boot-screen').style.display = 'none', 3000);
+        });
+
         function updateUItoPlaying() {
             playBtn.innerText = "Halt_Link";
             playBtn.classList.replace('bg-white', 'bg-red-600');
@@ -258,5 +280,4 @@
         }
     </script>
 </body>
-
 </html>
